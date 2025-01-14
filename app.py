@@ -65,12 +65,17 @@ def main():
     
     
     
+    print(' __  _   ____  ____   ____  ____      ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
+    print('|  |/ ] /    ||    \ |    ||    |    |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
+    print("|  ' / |  o  ||  _  ||__  | |  |     |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
+    print('|    \ |     ||  |  |__|  | |  |     |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
+    print("|     ||  _  ||  |  /  |  | |  |     |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
+    print('|  .  ||  |  ||  |  \  `  | |  |     |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
+    print('|__|\_||__|__||__|__|\____||____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
+    print('                                                                                                       ')
+    print()
     
-    
-    
-    
-    
-    print("Hello Welcome to Kanji Reviewer App !! \n\n" + "Would you like to add new Kanji? [Y/N]")
+    print("Hello Welcome to Kanji Review App !! \n\n\n\n\n\n\n\n" + "Would you like to add new Kanji? [Y/N]")
     res = input()
     print('\n\n\n')
     
