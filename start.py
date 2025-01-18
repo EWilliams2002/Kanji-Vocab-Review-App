@@ -2,6 +2,8 @@ from graphics import *
 import random
 import csv
 import pickle
+import json
+import codecs
 
 
 class Node:
@@ -238,6 +240,13 @@ def add_kanji(kanji_dict):
     :param y: Second number
     :return: Sum of x and y
     """
+
+    # This is what you would use to make sure the kanji is readable
+
+    # new_kanji = 'h,vvv,iii,ooo,bbb'
+    # with open(filename,'a',encoding='utf8') as f:
+    #     f.write(new_kanji)
+
     pass
 
 
@@ -272,7 +281,7 @@ def program_loop():
     :return: Sum of x and y
     """
 
-    kanji_dict = read_to_dictionary()
+    kanji_dict = read_to_dictionary('Dictionaries\kanji.txt', 'kanji')
 
     # draws window
     win = GraphWin("yerr", 2000, 1000)
@@ -336,101 +345,63 @@ def program_loop():
             print('clicked card right', mouse.getX(), mouse.getY())
 
 def read_to_dictionary(filename, dict):
-    dataset = ['hello','中']
-    outputFile = 'test.data'
-    fw = open(outputFile, 'wb')
-    pickle.dump(dataset, fw)
-    fw.close()
+    
+    ret_dict = {}
 
-    inputFile = 'test.data'
-    fd = open(inputFile, 'rb')
-    dataset1 = pickle.load(fd)
-    print(dataset1)
+    byte_string = open(filename, 'r', encoding='utf8').read()
+    unicode_text = byte_string.encode('UTF-8')
+    file = unicode_text.decode('UTF-8').splitlines()
 
+    for line in file:
+        temp = line.split(',')
 
-    # if dict == 'kanji':
-    #     with open (filename, newline='') as f:
-    #         reader = csv.reader(f, delimiter=' ', quotechar='|')
-            
-            
-    #         for row in reader:
-    #             print(', '.join(row))
-
-        # for line in f.readlines():
-        #     t = line.split(',')
-        #     break
-    # # draws window
-    # win = GraphWin("yerr", 2000, 1000)
-    # exit_t = Text(Point(1000,500), t[0])
-    # exit_t.setSize(20)
-    # exit_t.draw(win)
-
-    # win.getMouse()
-    # win.close()
-
-
-
-
-
-
-
-
-
-
-    # char kun on kun_sen on_sen
-    # kanji_dict = {} # key - char/symbol     val - kanji_object
-    # kanji_dict['中'] = Kanji('中', 'naka', 'chu', 'fefef', 'klkl')
-    # kanji_dict['G'] = Kanji('G', 'tanpa', 'olo', 'trtr', 'asas')
-    # kanji_dict['f'] = Kanji('f', 'fff', 'ttwt', 'uuu', 'hgh')
-    # kanji_dict['h'] = Kanji('h', 'vvv', 'iii', 'ooo', 'bbb')
-    # kanji_dict['j'] = Kanji('j', 'xxxxx', 'zzz', 'lll', 'mmm')
+        char = temp[0]
+        kun_yomi = temp[1]
+        on_yomi = temp[2]
+        kun_sent = temp[3]
+        on_sent = temp[4]
+        
+        ret_dict[char] = Kanji(char, kun_yomi, on_yomi, kun_sent, on_sent)
+    
+    return ret_dict
 
 
 def main():
-    read_to_dictionary('Dictionaries\kanji.csv', 'kanji')
-    # kanji_dict = {} # key - char/symbol     val - kanji_object
-    # kanji_dict['中'] = Kanji('中', 'naka', 'chu', 'fefef', 'klkl')
-    # kanji_dict['G'] = Kanji('G', 'tanpa', 'olo', 'trtr', 'asas')
-    # kanji_dict['f'] = Kanji('f', 'fff', 'ttwt', 'uuu', 'hgh')
-    # kanji_dict['h'] = Kanji('h', 'vvv', 'iii', 'ooo', 'bbb')
-    # kanji_dict['j'] = Kanji('j', 'xxxxx', 'zzz', 'lll', 'mmm')
+    print(' __  _   ____  ____   ____  ____      ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
+    print('|  |/ ] /    ||    \ |    ||    |    |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
+    print("|  ' / |  o  ||  _  ||__  | |  |     |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
+    print('|    \ |     ||  |  |__|  | |  |     |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
+    print("|     ||  _  ||  |  /  |  | |  |     |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
+    print('|  .  ||  |  ||  |  \  `  | |  |     |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
+    print('|__|\_||__|__||__|__|\____||____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
+    print('                                                                                                       ')
+    print()
+
+
+
+
+    print("Hello Welcome to Kanji Review App !! \n\n\n\n\n" + "Would you like to add new Kanji? [Y/N]")
+    res = input()
+    print('\n\n')
     
-    # print(' __  _   ____  ____   ____  ____      ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
-    # print('|  |/ ] /    ||    \ |    ||    |    |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
-    # print("|  ' / |  o  ||  _  ||__  | |  |     |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
-    # print('|    \ |     ||  |  |__|  | |  |     |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
-    # print("|     ||  _  ||  |  /  |  | |  |     |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
-    # print('|  .  ||  |  ||  |  \  `  | |  |     |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
-    # print('|__|\_||__|__||__|__|\____||____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
-    # print('                                                                                                       ')
-    # print()
-    
+    if res.lower() in ['y','yes']:
 
+        # Starts adding kanji sequence then after it is done, it returns to asking if you want to play
+        add_kanji()
 
+    print("Would you like to play? [Y/N]")
+    res = input()
+    print('\n\n')
 
+    if res.lower() in ['y','yes']:
 
-    # print("Hello Welcome to Kanji Review App !! \n\n\n\n\n" + "Would you like to add new Kanji? [Y/N]")
-    # res = input()
-    # print('\n\n')
-    
-    # if res.lower() in ['y','yes']:
+        # Add code here to add check whether or not you want to go kanji or vocab
 
-    #     # Starts adding kanji sequence then after it is done, it returns to asking if you want to play
-    #     add_kanji(kanji_dict)
+        # Starts the program loop and the window. Upon exit, the window closes and you are brought
+        # back to the goodbye prompt below
+        program_loop()
 
-    # print("Would you like to play? [Y/N]")
-    # res = input()
-    # print('\n\n')
-
-    # if res.lower() in ['y','yes']:
-
-    #     # Add code here to add check whether or not you want to go kanji or vocab
-
-    #     # Starts the program loop and the window. Upon exit, the window closes and you are brought
-    #     # back to the goodbye prompt below
-    #     program_loop(kanji_dict)
-
-    # input("Goodbye !!\n\nPress enter to exit . . .")
+    input("Goodbye !!\n\nPress enter to exit . . .")
 
 if __name__ == "__main__":
     main()
