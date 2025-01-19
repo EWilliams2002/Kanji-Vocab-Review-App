@@ -221,6 +221,9 @@ def draw_card(win, curr, choice):
 
         try:
 
+            # For try/except
+            x = card.present_aff
+            
             # verb label
             verb_label = Text(Point(800, 575),'Verbs')
             verb_label.setSize(20)
