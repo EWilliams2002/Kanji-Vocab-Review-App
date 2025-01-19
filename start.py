@@ -219,11 +219,8 @@ def draw_card(win, curr, choice):
         sentence_eng.setSize(20)
         sentence_eng.draw(win)
 
-        try:
+        if card.present_aff is not None:
 
-            # For try/except
-            x = card.present_aff
-            
             # verb label
             verb_label = Text(Point(800, 575),'Verbs')
             verb_label.setSize(20)
@@ -250,21 +247,18 @@ def draw_card(win, curr, choice):
             rect12_.draw(win)
 
             return [word, translation, sentence_jpn, sentence_eng, present_aff, present_neg], rect1_, rect12_
-            
+    
+        rect1_ = Rectangle(Point(600,340), Point(1400,380))
+        rect1_.setOutline(color_rgb(0, 0, 0))
+        rect1_.setFill(color_rgb(150, 200, 150))
+        rect1_.draw(win)
 
-        except AttributeError:
+        rect12_ = Rectangle(Point(600,440), Point(1400,670))
+        rect12_.setOutline(color_rgb(0, 0, 0))
+        rect12_.setFill(color_rgb(150, 200, 150))
+        rect12_.draw(win)
 
-            rect1_ = Rectangle(Point(600,340), Point(1400,380))
-            rect1_.setOutline(color_rgb(0, 0, 0))
-            rect1_.setFill(color_rgb(150, 200, 150))
-            rect1_.draw(win)
-
-            rect12_ = Rectangle(Point(600,440), Point(1400,670))
-            rect12_.setOutline(color_rgb(0, 0, 0))
-            rect12_.setFill(color_rgb(150, 200, 150))
-            rect12_.draw(win)
-
-            return [word, translation, sentence_jpn, sentence_eng], rect1_, rect12_
+        return [word, translation, sentence_jpn, sentence_eng], rect1_, rect12_
 
 
 def draw_blinders(win, rect1, rect12):
