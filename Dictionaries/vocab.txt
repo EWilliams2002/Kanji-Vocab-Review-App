@@ -1,0 +1,4 @@
+kore,this one,kore wa ina,this dog
+taberu,eat,niku wo taberu,eat meat,tabemasu;tabemasen
+nomu,drink,mizu wo nomu,drink water,nomimasu;nomimasen
+suru,do,sugaku suru,do math,shimasu;shimasen
