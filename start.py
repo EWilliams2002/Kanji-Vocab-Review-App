@@ -399,9 +399,72 @@ def undraw_blinders(direction, rect1, rect12):
         rect12.undraw()
 
 
+def comma_check(res):
+
+    if ',' in res:
+        return False
+    
+    return True
 
 
-def add_kanji(kanji_dict):
+def repeat_check(new_ent, res, end=False):
+
+    if res in ['', None, 'None']:
+        print('\n\n')
+        
+        if end:
+            return new_ent + '-'
+        else:
+            return new_ent + '-' + ','
+        
+
+    cond_met = False
+
+    if comma_check(res):
+        cond_met = True
+        print('\n\n')
+
+        if end:
+            return new_ent + res
+        else:
+            return new_ent + res + ','
+    
+    while not cond_met:
+        print('ERROR: Please check your entry')
+
+        res = input()
+
+        cond_met = False
+
+        if comma_check(res):
+            cond_met = True
+            print('\n\n')
+
+            if end:
+                return new_ent + res
+            else:
+                return new_ent + res + ','
+
+    
+def check_exists(res, choice):
+    
+    if choice == 'kanji':
+        choice_dict = read_to_dictionary('Dictionaries\kanji.txt', 'kanji')
+
+        if res in choice_dict:
+            return False
+        
+    if choice == 'vocab':
+        choice_dict = read_to_dictionary('Dictionaries\\vocab.txt', 'vocab')
+
+        if res in choice_dict:
+            return False
+        
+    return True
+
+
+
+def add_kanji(filename, choice):
     """
     Add two numbers.
 
@@ -410,14 +473,146 @@ def add_kanji(kanji_dict):
     :return: Sum of x and y
     """
 
-    # This is what you would use to make sure the kanji is readable
+    # print("New Kanji, New Vocab, or exit? [K/V/E]")
+    # loop_res = input()
+    # print('\n\n')
 
-    # new_kanji = 'h,vvv,iii,ooo,bbb'
-    # with open(filename,'a',encoding='utf8') as f:
-    #     f.write(new_kanji)
+    if choice == 'kanji':
 
-    pass
+        new_kanji = ''
 
+        # Character
+        print("What is the character?")
+        res = input()
+
+        ret = check_exists(res, choice)
+
+        cond_met = False
+
+        if comma_check(res) and len(res) == 1 and ret:
+            cond_met = True
+            new_kanji += res + ','
+     
+        while not cond_met:
+
+            if not ret:
+                print('ERROR: Character already exists')
+            else:
+                print('ERROR: Please check your entry')
+
+            res = input()
+
+            ret = check_exists(res, choice)
+            cond_met = False
+
+            if comma_check(res) and len(res) == 1 and ret:
+                cond_met = True
+                new_kanji += res + ','
+
+        print('\n\n')
+
+        
+        # kun yomi
+        print("What is the kun yomi reading?")
+        res = input()
+        new_kanji = repeat_check(new_kanji, res)
+
+        # on yomi
+        print("What is the on yomi reading?")
+        res = input()
+        new_kanji = repeat_check(new_kanji, res)
+
+        # kun yomi sentence
+        print("What is the kun yomi sentence?")
+        res = input()
+        new_kanji = repeat_check(new_kanji, res)
+
+        # on yomi sentence
+        print("What is the on yomi sentence?")
+        res = input()
+        new_kanji = repeat_check(new_kanji, res, True)
+        print('\n\n')
+
+
+        with open(filename,'a',encoding='utf8') as f:
+            f.write('\n' + new_kanji)
+        
+        f.close()
+
+    if choice == 'vocab':
+
+        new_vocab = ''
+
+        # Character
+        print("What is the Word?")
+        res = input()
+
+        ret = check_exists(res, choice)
+
+        cond_met = False
+
+        if comma_check(res) and ret:
+            cond_met = True
+            new_vocab += res + ','
+     
+        while not cond_met:
+
+            if not ret:
+                print('ERROR: Word already exists')
+            else:
+                print('ERROR: Please check your entry')
+
+            res = input()
+
+            ret = check_exists(res, choice)
+            cond_met = False
+
+            if comma_check(res) and ret:
+                cond_met = True
+                new_vocab += res + ','
+
+        print('\n\n')
+
+        
+        # translation
+        print("What is the translation?")
+        res = input()
+        new_vocab = repeat_check(new_vocab, res)
+
+        # sentence_jpn
+        print("What is the example japanese sentence?")
+        res = input()
+        new_vocab = repeat_check(new_vocab, res)
+
+        # sentence_eng
+        print("What is that sentence's translation?")
+        res = input()
+        new_vocab = repeat_check(new_vocab, res, True)
+
+        # verb_check
+        print("Is your word a verb?")
+        res = input()
+        print('\n\n')
+
+        if res.lower() in ['y','yes']:
+
+            new_vocab += ','
+
+            # present_aff
+            print("What is the present affirmative tense?")
+            res = input()
+            new_vocab = repeat_check(new_vocab, res, True)
+            new_vocab += ';'
+
+            # present_neg
+            print("What is the present negative tense?")
+            res = input()
+            new_vocab = repeat_check(new_vocab, res, True)
+
+        with open(filename,'a',encoding='utf8') as f:
+            f.write('\n' + new_vocab)
+        
+        f.close()
 
 
 
@@ -457,7 +652,7 @@ def program_loop(choice):
         choice_dict = read_to_dictionary('Dictionaries\\vocab.txt', 'vocab')
 
     # draws window
-    win = GraphWin("yerr", 2000, 1000)
+    win = GraphWin("Kanji 'N' Vocab Review App", 2000, 1000)
 
     # arrows
     arrow_left = Image(Point(300, 500), 'images\\arrow.png')
@@ -583,27 +778,39 @@ def read_to_dictionary(filename, choice):
 
 def main():
 
-    print(' __  _   ____  ____   ____  ____      ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
-    print('|  |/ ] /    ||    \ |    ||    |    |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
-    print("|  ' / |  o  ||  _  ||__  | |  |     |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
-    print('|    \ |     ||  |  |__|  | |  |     |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
-    print("|     ||  _  ||  |  /  |  | |  |     |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
-    print('|  .  ||  |  ||  |  \  `  | |  |     |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
-    print('|__|\_||__|__||__|__|\____||____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
+    print(' __  _   ____  ____   ____  ____      __  ____   __      __ __   ___     __   ____  ____       ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
+    print('|  |/ ] /    ||    \ |    ||    |    |  ||    \ |  |    |  |  | /   \   /  ] /    ||    \     |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
+    print("|  ' / |  o  ||  _  ||__  | |  |     |_ ||  _  ||_ |    |  |  ||     | /  / |  o  ||  o  )    |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
+    print('|    \ |     ||  |  |__|  | |  |       \||  |  |  \|    |  |  ||  O  |/  /  |     ||     |    |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
+    print("|     ||  _  ||  |  /  |  | |  |         |  |  |        |  :  ||     /   \_ |  _  ||  O  |    |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
+    print('|  .  ||  |  ||  |  \  `  | |  |         |  |  |         \   / |     \     ||  |  ||     |    |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
+    print('|__|\_||__|__||__|__|\____j|____|        |__|__|          \_/   \___/ \____||__|__||_____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
     print('                                                                                                       ')
     print()
 
-
-
-
-    print("Hello Welcome to Kanji Review App !! \n\n\n\n\n" + "Would you like to add new Kanji? [Y/N]")
+    print("Hello, welcome to Kanji Review App !! \n\n\n\n\n" + "Would you like to add a new Kanji or Vocab Word? [Y/N - K/V]")
     res = input()
     print('\n\n')
-    
-    if res.lower() in ['y','yes']:
 
-        # Starts adding kanji sequence then after it is done, it returns to asking if you want to play
-        add_kanji()
+
+    while res.lower() in ['y','yes','k','kanji','v','vocab']:
+
+        if res.lower() not in ['k','kanji','v','vocab']:
+            print("New Kanji, New Vocab, or skip? [K/V/S]")
+            res = input()
+            print('\n\n')
+    
+        if res.lower() in ['k','kanji']:
+            add_kanji('Dictionaries\kanji.txt', 'kanji')
+            res = 'y'
+
+        if res.lower() in ['v','vocab']:
+            add_kanji('Dictionaries\\vocab.txt', 'vocab')
+            res = 'y'
+        
+        if res.lower() in ['s','skip']:
+            break
+
 
     print("Would you like to play? [Y/N]")
     loop_res = input()
@@ -614,15 +821,12 @@ def main():
 
             if loop_res.lower() in ['y','yes']:
                 print('\n\n')
-                
+
             print("Kanji review, Vocab review, or exit? [K/V/E]")
             loop_res = input()
             print('\n\n')
 
             if loop_res.lower() in ['k','kanji']:
-
-                # Starts the program loop and the window. Upon exit, the window closes and you are brought
-                # back to the goodbye prompt below
                 program_loop('kanji')
 
             if loop_res.lower() in ['v','vocab']:
@@ -630,6 +834,7 @@ def main():
             
             if loop_res.lower() in ['e','exit']:
                 break
+
     else:
         print('\n\n')
 
