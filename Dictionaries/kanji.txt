@@ -1,5 +1,5 @@
-中,naka,chu,fefef,klkl
-G,tanpa,olo,trtr,asas
-f,fff,ttwt,uuu,hgh
-h,vvv,iii,ooo,bbb
-j,xxxxx,zzz,lll,mmm
+中,translate,naka,chu,fefef,klkl
+G,translate,tanpa,olo,trtr,asas
+f,translate,fff,ttwt,uuu,hgh
+h,translate,vvv,iii,ooo,bbb
+j,translate,xxxxx,zzz,lll,mmm

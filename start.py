@@ -11,9 +11,10 @@ class Node:
 
 class Kanji:
 
-    def __init__(self, char, kun_yomi, on_yomi, kun_sentence, on_sentence):
+    def __init__(self, char, translation, kun_yomi, on_yomi, kun_sentence, on_sentence):
         # Initialize a kanji object with both readings and their example sentence
         self.char = char
+        self.translation = translation
         self.kun_yomi = kun_yomi
         self.on_yomi = on_yomi
         self.kun_sentence = kun_sentence
@@ -85,55 +86,62 @@ def change_card(curr, direction, extras, win, rect1, rect12, choice):
 
         # kanji - extras = [char, kun, on, kun_sentence, on_sentence]
         char = extras[0]
-        kun = extras[1]
-        on = extras[2]
-        kun_sentence = extras[3]
-        on_sentence = extras[4]
+        translation = extras[1]
+        kun = extras[2]
+        on = extras[3]
+        kun_sentence = extras[4]
+        on_sentence = extras[5]
 
         if direction == 'r':
-            kanji = curr.next.data
+            card = curr.next.data
 
         if direction == 'l':
-            kanji = curr.prev.data
+            card = curr.prev.data
 
         char.undraw()
+        translation.undraw()
         kun.undraw()
         on.undraw()
         kun_sentence.undraw()
         on_sentence.undraw()
 
         # The kanji char
-        char = Text(Point(1000, 300), kanji.char)
+        char = Text(Point(1000, 250), card.char)
         char.setSize(36)
         char.draw(win)
 
+        # translation
+        translation = Text(Point(1000, 355),card.translation)
+        translation.setSize(20)
+        translation.draw(win)
+
         # kun yomi
-        kun = Text(Point(725, 530),kanji.kun_yomi)
+        kun = Text(Point(725, 550),card.kun_yomi)
         kun.setSize(15)
         kun.draw(win)
 
         # on yomi
-        on = Text(Point(1275, 530),kanji.on_yomi)
+        on = Text(Point(1275, 550),card.on_yomi)
         on.setSize(15)
         on.draw(win)
 
         # kun sentence
-        kun_sentence = Text(Point(725, 630),kanji.kun_sentence)
+        kun_sentence = Text(Point(725, 650),card.kun_sentence)
         kun_sentence.setSize(15)
         kun_sentence.draw(win)
 
         # on sentence
-        on_sentence = Text(Point(1275, 630),kanji.on_sentence)
+        on_sentence = Text(Point(1275, 650),card.on_sentence)
         on_sentence.setSize(15)
         on_sentence.draw(win)
 
         rect1_, rect12_ = draw_blinders(win, rect1, rect12, choice)
 
         if direction == 'r':
-            return curr.next, [char, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+            return curr.next, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
 
         if direction == 'l':
-            return curr.prev, [char, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+            return curr.prev, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
         
     if choice == 'vocab':
 
@@ -238,46 +246,53 @@ def draw_card(win, curr, choice):
     rect.draw(win)
 
     if choice == 'kanji':
-        # divider line
-        divider = Line(Point(1000, 430), Point(1000, 830))
-        divider.draw(win)
+        
 
         # The kanji char
-        char = Text(Point(1000, 300), card.char)
+        char = Text(Point(1000, 250), card.char)
         char.setSize(36)
-        char.draw(win)
+        char.draw(win)  
 
+        # translation
+        translation = Text(Point(1000, 355),card.translation)
+        translation.setSize(20)
+        translation.draw(win)
+
+        # divider line
+        divider = Line(Point(1000, 450), Point(1000, 850))
+        divider.draw(win)
+        
         # kun yomi
-        kun = Text(Point(725, 530),card.kun_yomi)
+        kun = Text(Point(725, 550),card.kun_yomi)
         kun.setSize(15)
         kun.draw(win)
 
         # on yomi
-        on = Text(Point(1275, 530),card.on_yomi)
+        on = Text(Point(1275, 550),card.on_yomi)
         on.setSize(15)
         on.draw(win)
 
         # kun sentence
-        kun_sentence = Text(Point(725, 630),card.kun_sentence)
+        kun_sentence = Text(Point(725, 650),card.kun_sentence)
         kun_sentence.setSize(15)
         kun_sentence.draw(win)
 
         # on sentence
-        on_sentence = Text(Point(1275, 630),card.on_sentence)
+        on_sentence = Text(Point(1275, 650),card.on_sentence)
         on_sentence.setSize(15)
         on_sentence.draw(win)
 
-        rect1_ = Rectangle(Point(575,410), Point(910,810))
+        rect1_ = Rectangle(Point(575,450), Point(910,850))
         rect1_.setOutline(color_rgb(0, 0, 0))
         rect1_.setFill(color_rgb(150, 200, 150))
         rect1_.draw(win)
 
-        rect12_ = Rectangle(Point(1075,410), Point(1410,810))
+        rect12_ = Rectangle(Point(1075,450), Point(1410,850))
         rect12_.setOutline(color_rgb(0, 0, 0))
         rect12_.setFill(color_rgb(150, 200, 150))
         rect12_.draw(win)
 
-        return [char, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+        return [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
     
     if choice == 'vocab':
 
@@ -360,12 +375,12 @@ def draw_blinders(win, rect1, rect12, choice):
     undraw_blinders('r', rect1, rect12)
     
     if choice == 'kanji':
-        rect1_ = Rectangle(Point(575,410), Point(910,810))
+        rect1_ = Rectangle(Point(575,450), Point(910,850))
         rect1_.setOutline(color_rgb(0, 0, 0))
         rect1_.setFill(color_rgb(150, 200, 150))
         rect1_.draw(win)
 
-        rect12_ = Rectangle(Point(1075,410), Point(1410,810))
+        rect12_ = Rectangle(Point(1075,450), Point(1410,850))
         rect12_.setOutline(color_rgb(0, 0, 0))
         rect12_.setFill(color_rgb(150, 200, 150))
         rect12_.draw(win)
@@ -752,12 +767,13 @@ def read_to_dictionary(filename, choice):
 
         if choice == 'kanji':
             char = temp[0]
-            kun_yomi = temp[1]
-            on_yomi = temp[2]
-            kun_sent = temp[3]
-            on_sent = temp[4]
+            translation = temp[1]
+            kun_yomi = temp[2]
+            on_yomi = temp[3]
+            kun_sent = temp[4]
+            on_sent = temp[5]
             
-            ret_dict[char] = Kanji(char, kun_yomi, on_yomi, kun_sent, on_sent)
+            ret_dict[char] = Kanji(char, translation, kun_yomi, on_yomi, kun_sent, on_sent)
         
         if choice == 'vocab':
             
