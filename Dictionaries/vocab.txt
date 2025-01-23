@@ -1,4 +1,4 @@
-kore,this one,kore wa ina,this dog
-taberu,eat,niku wo taberu,eat meat,tabemasu;tabemasen
-nomu,drink,mizu wo nomu,drink water,nomimasu;nomimasen
-suru,do,sugaku suru,do math,shimasu;shimasen
+これ,This,これは犬,This dog,-;-
+食べ,Eat,肉を食べる,Eat meat,たべます;食べません
+飲む,Drink,水を飲む,Drink water,飲みます;飲みません
+する,Do,料理する,To cook,します;しません

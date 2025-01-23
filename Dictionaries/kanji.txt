@@ -1,5 +1,2 @@
-中,translate,naka,chu,fefef,klkl
-G,translate,tanpa,olo,trtr,asas
-f,translate,fff,ttwt,uuu,hgh
-h,translate,vvv,iii,ooo,bbb
-j,translate,xxxxx,zzz,lll,mmm
+中,Middle,なか,ちゅう;じゅう,本はかばんの中にあります;The book is in the bag,中フィールド;Middle field
+日,Day;Sun,ひ;か,にち;じつ,今日は日曜日か?;Is today Sunday?,曜日;Day of the week

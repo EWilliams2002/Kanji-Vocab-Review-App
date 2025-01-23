@@ -74,7 +74,7 @@ def get_dlinked_list(choice_dict):
 
 
 
-def change_card(curr, direction, extras, win, rect1, rect12, choice):
+def change_card(curr, direction, extras, win, rect1, rect12, choice, rect3=False):
     """
     Add two numbers.
 
@@ -111,37 +111,41 @@ def change_card(curr, direction, extras, win, rect1, rect12, choice):
         char.draw(win)
 
         # translation
-        translation = Text(Point(1000, 355),card.translation)
+        translation = Text(Point(1000, 355),card.translation.replace(';', ', '))
         translation.setSize(20)
         translation.draw(win)
 
         # kun yomi
-        kun = Text(Point(725, 550),card.kun_yomi)
+        kun = Text(Point(725, 550),card.kun_yomi.replace(';', '  -  '))
         kun.setSize(15)
+        kun.setStyle('bold')
         kun.draw(win)
 
         # on yomi
-        on = Text(Point(1275, 550),card.on_yomi)
+        on = Text(Point(1275, 550),card.on_yomi.replace(';', '  -  '))
         on.setSize(15)
+        on.setStyle('bold')
         on.draw(win)
 
         # kun sentence
-        kun_sentence = Text(Point(725, 650),card.kun_sentence)
+        kun_sentence = Text(Point(725, 650),card.kun_sentence.replace(';', ' -> '))
         kun_sentence.setSize(15)
+        kun_sentence.setStyle('bold')
         kun_sentence.draw(win)
 
         # on sentence
-        on_sentence = Text(Point(1275, 650),card.on_sentence)
+        on_sentence = Text(Point(1275, 650),card.on_sentence.replace(';', ' -> '))
         on_sentence.setSize(15)
+        on_sentence.setStyle('bold')
         on_sentence.draw(win)
 
-        rect1_, rect12_ = draw_blinders(win, rect1, rect12, choice)
+        rect1_, rect12_, rect3_ = draw_blinders(win, rect1, rect12, choice, rect3)
 
         if direction == 'r':
-            return curr.next, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+            return curr.next, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_, rect3_
 
         if direction == 'l':
-            return curr.prev, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+            return curr.prev, [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_, rect3_
         
     if choice == 'vocab':
 
@@ -166,15 +170,11 @@ def change_card(curr, direction, extras, win, rect1, rect12, choice):
         word = Text(Point(1000, 250), card.word)
         word.setSize(36)
         word.draw(win)
-
+        
         # translation
         translation = Text(Point(1000, 365),card.translation)
         translation.setSize(20)
         translation.draw(win)
-
-        # divider line
-        divider = Line(Point(1000, 450), Point(1000, 650))
-        divider.draw(win)
 
         # sentence_jpn
         sentence_jpn = Text(Point(800, 475),card.sentence_jpn)
@@ -254,7 +254,7 @@ def draw_card(win, curr, choice):
         char.draw(win)  
 
         # translation
-        translation = Text(Point(1000, 355),card.translation)
+        translation = Text(Point(1000, 355),card.translation.replace(';', ', '))
         translation.setSize(20)
         translation.draw(win)
 
@@ -263,36 +263,45 @@ def draw_card(win, curr, choice):
         divider.draw(win)
         
         # kun yomi
-        kun = Text(Point(725, 550),card.kun_yomi)
+        kun = Text(Point(725, 550),card.kun_yomi.replace(';', '  -  '))
         kun.setSize(15)
+        kun.setStyle('bold')
         kun.draw(win)
 
         # on yomi
-        on = Text(Point(1275, 550),card.on_yomi)
+        on = Text(Point(1275, 550),card.on_yomi.replace(';', '  -  '))
         on.setSize(15)
+        on.setStyle('bold')
         on.draw(win)
 
         # kun sentence
-        kun_sentence = Text(Point(725, 650),card.kun_sentence)
+        kun_sentence = Text(Point(725, 650),card.kun_sentence.replace(';', ' -> '))
         kun_sentence.setSize(15)
+        kun_sentence.setStyle('bold')
         kun_sentence.draw(win)
 
         # on sentence
-        on_sentence = Text(Point(1275, 650),card.on_sentence)
+        on_sentence = Text(Point(1275, 650),card.on_sentence.replace(';', ' -> '))
         on_sentence.setSize(15)
+        on_sentence.setStyle('bold')
         on_sentence.draw(win)
 
-        rect1_ = Rectangle(Point(575,450), Point(910,850))
+        rect1_ = Rectangle(Point(450,450), Point(1000,850))
         rect1_.setOutline(color_rgb(0, 0, 0))
         rect1_.setFill(color_rgb(150, 200, 150))
         rect1_.draw(win)
 
-        rect12_ = Rectangle(Point(1075,450), Point(1410,850))
+        rect12_ = Rectangle(Point(1000,450), Point(1550,850))
         rect12_.setOutline(color_rgb(0, 0, 0))
         rect12_.setFill(color_rgb(150, 200, 150))
         rect12_.draw(win)
 
-        return [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_
+        rect3_ = Rectangle(Point(600,340), Point(1400,380))
+        rect3_.setOutline(color_rgb(0, 0, 0))
+        rect3_.setFill(color_rgb(150, 200, 150))
+        rect3_.draw(win)
+
+        return [char, translation, kun, on, kun_sentence, on_sentence], rect1_, rect12_, rect3_
     
     if choice == 'vocab':
 
@@ -306,9 +315,10 @@ def draw_card(win, curr, choice):
         translation.setSize(20)
         translation.draw(win)
 
-        # divider line
-        divider = Line(Point(1000, 450), Point(1000, 650))
-        divider.draw(win)
+        #arrow one
+        arrow_one = Line(Point(980, 475), Point(1020, 475))
+        arrow_one.setArrow('last')
+        arrow_one.draw(win)
 
         # sentence_jpn
         sentence_jpn = Text(Point(800, 475),card.sentence_jpn)
@@ -326,6 +336,11 @@ def draw_card(win, curr, choice):
             verb_label = Text(Point(800, 575), 'Verb Tenses')
             verb_label.setSize(20)
             verb_label.draw(win)
+
+            #arrow two
+            arrow_one = Line(Point(980, 575), Point(1020, 575))
+            arrow_one.setArrow('last')
+            arrow_one.draw(win)
 
             # present_aff
             present_aff = Text(Point(1200, 575),card.present_aff)
@@ -362,7 +377,7 @@ def draw_card(win, curr, choice):
         return [word, translation, sentence_jpn, sentence_eng], rect1_, rect12_
 
 
-def draw_blinders(win, rect1, rect12, choice):
+def draw_blinders(win, rect1, rect12, choice, rect3=False):
     """
     Add two numbers.
 
@@ -375,17 +390,25 @@ def draw_blinders(win, rect1, rect12, choice):
     undraw_blinders('r', rect1, rect12)
     
     if choice == 'kanji':
-        rect1_ = Rectangle(Point(575,450), Point(910,850))
+
+        undraw_blinders('m', rect1, rect12, rect3)
+
+        rect1_ = Rectangle(Point(450,450), Point(1000,850))
         rect1_.setOutline(color_rgb(0, 0, 0))
         rect1_.setFill(color_rgb(150, 200, 150))
         rect1_.draw(win)
 
-        rect12_ = Rectangle(Point(1075,450), Point(1410,850))
+        rect12_ = Rectangle(Point(1000,450), Point(1550,850))
         rect12_.setOutline(color_rgb(0, 0, 0))
         rect12_.setFill(color_rgb(150, 200, 150))
         rect12_.draw(win)
 
-        return rect1_, rect12_
+        rect3_ = Rectangle(Point(600,340), Point(1400,380))
+        rect3_.setOutline(color_rgb(0, 0, 0))
+        rect3_.setFill(color_rgb(150, 200, 150))
+        rect3_.draw(win)
+
+        return rect1_, rect12_, rect3_
     
     if choice == 'vocab':
         rect1_ = Rectangle(Point(600,340), Point(1400,380))
@@ -400,7 +423,7 @@ def draw_blinders(win, rect1, rect12, choice):
 
         return rect1_, rect12_
 
-def undraw_blinders(direction, rect1, rect12):
+def undraw_blinders(direction, rect1, rect12, rect3=False):
     """
     Add two numbers.
 
@@ -412,6 +435,8 @@ def undraw_blinders(direction, rect1, rect12):
         rect1.undraw()
     if direction == 'r':
         rect12.undraw()
+    if direction == 'm':
+        rect3.undraw()
 
 
 def comma_check(res):
@@ -526,24 +551,28 @@ def add_kanji(filename, choice):
 
         print('\n\n')
 
+        # translation
+        print("What is the translation?  * seperate multiple by semicolons * ")
+        res = input()
+        new_kanji = repeat_check(new_kanji, res)
         
         # kun yomi
-        print("What is the kun yomi reading?")
+        print("What is the kun yomi reading?  * seperate multiple by semicolons * ")
         res = input()
         new_kanji = repeat_check(new_kanji, res)
 
         # on yomi
-        print("What is the on yomi reading?")
+        print("What is the on yomi reading?  * seperate multiple by semicolons * ")
         res = input()
         new_kanji = repeat_check(new_kanji, res)
 
         # kun yomi sentence
-        print("What is the kun yomi sentence?")
+        print("What is the kun yomi sentence?  * seperate multiple by semicolons * ")
         res = input()
         new_kanji = repeat_check(new_kanji, res)
 
         # on yomi sentence
-        print("What is the on yomi sentence?")
+        print("What is the on yomi sentence?  * seperate multiple by semicolons * ")
         res = input()
         new_kanji = repeat_check(new_kanji, res, True)
         print('\n\n')
@@ -669,6 +698,10 @@ def program_loop(choice):
     # draws window
     win = GraphWin("Kanji 'N' Vocab Review App", 2000, 1000)
 
+    bg = Image(Point(1000, 500), 'images\\bg.png')
+    
+    bg.draw(win)
+
     # arrows
     arrow_left = Image(Point(300, 500), 'images\\arrow.png')
     arrow_right = Image(Point(1700, 500), 'images\\arrowright.png')
@@ -684,12 +717,13 @@ def program_loop(choice):
     exit_t = Text(exit_b.getCenter(), 'E X I T')
     exit_t.setSize(10)
     exit_t.draw(win)
+    
 
     curr = get_dlinked_list(choice_dict)
     closed = False
 
     if choice == 'kanji':
-        extras, rect1, rect12 = draw_card(win, curr, 'kanji')
+        extras, rect1, rect12, rect3 = draw_card(win, curr, 'kanji')
         
     if choice == 'vocab':
         extras, rect1, rect12 = draw_card(win, curr, 'vocab')
@@ -703,14 +737,22 @@ def program_loop(choice):
         # Pressed left
         if (mouse.getX() >= 0 and mouse.getX() <= 449) and (mouse.getY() >= 100 and mouse.getY() <= 900) and curr.prev is not None:
 
-            curr, extras, rect1, rect12 = change_card(curr, 'l', extras, win, rect1, rect12, choice)
+            if choice == 'kanji':
+                curr, extras, rect1, rect12, rect3 = change_card(curr, 'l', extras, win, rect1, rect12, choice, rect3)
+            else:
+
+                curr, extras, rect1, rect12 = change_card(curr, 'l', extras, win, rect1, rect12, choice)
 
             # print('clicked left', mouse.getX(), mouse.getY())
                 
         # Pressed right
         if (mouse.getX() >= 1551 and mouse.getX() <= 2000) and (mouse.getY() >= 100 and mouse.getY() <= 900) and curr.next is not None:
 
-            curr, extras, rect1, rect12 = change_card(curr, 'r', extras, win, rect1, rect12, choice)
+            if choice == 'kanji':
+                curr, extras, rect1, rect12, rect3 = change_card(curr, 'r', extras, win, rect1, rect12, choice, rect3)
+            else:
+
+                curr, extras, rect1, rect12 = change_card(curr, 'r', extras, win, rect1, rect12, choice)
 
             # print('clicked right', mouse.getX(), mouse.getY())
 
@@ -725,14 +767,21 @@ def program_loop(choice):
 
 
         # Pressed card left (kanji)
-        if (mouse.getX() >= 450 and mouse.getX() <= 1000) and (mouse.getY() >= 100 and mouse.getY() <= 900) and choice == 'kanji':
+        if (mouse.getX() >= 450 and mouse.getX() <= 1000) and (mouse.getY() >= 381 and mouse.getY() <= 900) and choice == 'kanji':
 
             undraw_blinders('l', rect1, rect12)
 
             # print('clicked card left', mouse.getX(), mouse.getY())
 
+        # Pressed card translation (kanji)
+        if (mouse.getX() >= 450 and mouse.getX() <= 1550) and (mouse.getY() >= 100 and mouse.getY() <= 380) and choice == 'kanji':
+
+            undraw_blinders('m', rect1, rect12, rect3)
+
+            # print('clicked card left', mouse.getX(), mouse.getY())
+
         # Pressed card right (kanji)
-        if (mouse.getX() >= 1001 and mouse.getX() <= 1550) and (mouse.getY() >= 100 and mouse.getY() <= 900) and choice == 'kanji':
+        if (mouse.getX() >= 1001 and mouse.getX() <= 1550) and (mouse.getY() >= 381 and mouse.getY() <= 900) and choice == 'kanji':
 
             undraw_blinders('r', rect1, rect12)
 
