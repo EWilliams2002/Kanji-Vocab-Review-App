@@ -489,7 +489,7 @@ def repeat_check(new_ent, res, end=False):
 def check_exists(res, choice):
     
     if choice == 'kanji':
-        choice_dict = read_to_dictionary('Dictionaries\kanji.txt', 'kanji')
+        choice_dict = read_to_dictionary('Dictionaries\\kanji.txt', 'kanji')
 
         if res in choice_dict:
             return False
@@ -660,26 +660,6 @@ def add_kanji(filename, choice):
 
 
 
-def traverse(head):
-    """
-    Add two numbers.
-
-    :param x: First number
-    :param y: Second number
-    :return: Sum of x and y
-    """
-    # Traverse the doubly linked list and print its elements
-    current = head
-    while current:
-      # Print current node's data
-        print(current.data.word, end=" <-> ")
-        # Move to the next node
-        current = current.next
-    print("None")
-
-
-
-
 def program_loop(choice):
     """
     Add two numbers.
@@ -690,7 +670,7 @@ def program_loop(choice):
     """
 
     if choice == 'kanji':
-        choice_dict = read_to_dictionary('Dictionaries\kanji.txt', 'kanji')
+        choice_dict = read_to_dictionary('Dictionaries\\kanji.txt', 'kanji')
         
     if choice == 'vocab':
         choice_dict = read_to_dictionary('Dictionaries\\vocab.txt', 'vocab')
@@ -844,29 +824,31 @@ def read_to_dictionary(filename, choice):
 def main():
 
     print(' __  _   ____  ____   ____  ____      __  ____   __      __ __   ___     __   ____  ____       ____     ___ __ __  ____    ___ __    __       ____  ____  ____  ')
-    print('|  |/ ] /    ||    \ |    ||    |    |  ||    \ |  |    |  |  | /   \   /  ] /    ||    \     |    \   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \|    \ ')
+    print('|  |/ ] /    ||    \\ |    ||    |    |  ||    \\ |  |    |  |  | /   \\   /  ] /    ||    \\     |    \\   /  _]  |  ||    |  /  _]  |__|  |     /    ||    \\|    \\ ')
     print("|  ' / |  o  ||  _  ||__  | |  |     |_ ||  _  ||_ |    |  |  ||     | /  / |  o  ||  o  )    |  D  ) /  [_|  |  | |  |  /  [_|  |  |  |    |  o  ||  o  )  o  )")
-    print('|    \ |     ||  |  |__|  | |  |       \||  |  |  \|    |  |  ||  O  |/  /  |     ||     |    |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
-    print("|     ||  _  ||  |  /  |  | |  |         |  |  |        |  :  ||     /   \_ |  _  ||  O  |    |    \ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
-    print('|  .  ||  |  ||  |  \  `  | |  |         |  |  |         \   / |     \     ||  |  ||     |    |  .  \|     |\   /  |  | |     |\      /     |  |  ||  |  |  |   ')
-    print('|__|\_||__|__||__|__|\____j|____|        |__|__|          \_/   \___/ \____||__|__||_____|    |__|\_||_____| \_/  |____||_____| \_/\_/      |__|__||__|  |__|   ')
+    print('|    \\ |     ||  |  |__|  | |  |       \\||  |  |  \\|    |  |  ||  O  |/  /  |     ||     |    |    / |    _]  |  | |  | |    _]  |  |  |    |     ||   _/|   _/ ')
+    print("|     ||  _  ||  |  /  |  | |  |         |  |  |        |  :  ||     /   \\_ |  _  ||  O  |    |    \\ |   [_|  :  | |  | |   [_|  `  '  |    |  _  ||  |  |  |   ")
+    print('|  .  ||  |  ||  |  \\  `  | |  |         |  |  |         \\   / |     \\     ||  |  ||     |    |  .  \\|     |\\   /  |  | |     |\\      /     |  |  ||  |  |  |   ')
+    print('|__|\\_||__|__||__|__|\\____j|____|        |__|__|          \\_/   \\___/ \\____||__|__||_____|    |__|\\_||_____| \\_/  |____||_____| \\_/\\_/      |__|__||__|  |__|   ')
     print('                                                                                                       ')
     print()
 
-    print("Hello, welcome to Kanji Review App !! \n\n\n\n\n" + "Would you like to add a new Kanji or Vocab Word? [Y/N - K/V]")
+    print("Hello, welcome to Kanji Review App !! \n\n\n\n")
+    print("Would you like to add a new Kanji or Vocab Word? [Y/N - K/V]")
     res = input()
     print('\n\n')
 
-
+    # Adding new kanji or vocab
     while res.lower() in ['y','yes','k','kanji','v','vocab']:
 
+        # Choice whether kanji or vocab
         if res.lower() not in ['k','kanji','v','vocab']:
             print("New Kanji, New Vocab, or skip? [K/V/S]")
             res = input()
             print('\n\n')
     
         if res.lower() in ['k','kanji']:
-            add_kanji('Dictionaries\kanji.txt', 'kanji')
+            add_kanji('Dictionaries\\kanji.txt', 'kanji')
             res = 'y'
 
         if res.lower() in ['v','vocab']:
@@ -880,11 +862,11 @@ def main():
     print("Would you like to play? [Y/N]")
     loop_res = input()
 
-    if loop_res.lower() in ['y','yes']:
+    if loop_res.lower() in ['y','yes','']:
 
         while loop_res.lower() not in ['e','exit']:
 
-            if loop_res.lower() in ['y','yes']:
+            if loop_res.lower() in ['y','yes','']:
                 print('\n\n')
 
             print("Kanji review, Vocab review, or exit? [K/V/E]")
@@ -907,3 +889,22 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+# def traverse(head):
+#     """
+#     Add two numbers.
+
+#     :param x: First number
+#     :param y: Second number
+#     :return: Sum of x and y
+#     """
+#     # Traverse the doubly linked list and print its elements
+#     current = head
+#     while current:
+#       # Print current node's data
+#         print(current.data.word, end=" <-> ")
+#         # Move to the next node
+#         current = current.next
+#     print("None")
